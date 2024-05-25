@@ -29,6 +29,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # 3rd Parties
+    'ckeditor',
+    'ckeditor_uploader',
 
     # Apps
     'utils',
@@ -124,3 +128,5 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'blog_users.User'
+
+CKEDITOR_UPLOAD_PATH = "image_upload/"

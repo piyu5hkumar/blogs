@@ -1,11 +1,14 @@
 from django.db import models
 from utils.abstract_models import BaseModel
 from blog_users.models import User
+from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
+
 
 class Blog(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=100)
-    content = models.TextField()
+    content = RichTextUploadingField()
     total_likes = models.PositiveIntegerField(default=0)
     total_comments = models.PositiveIntegerField(default=0)
 
