@@ -32,7 +32,8 @@ INSTALLED_APPS = [
 
     # Apps
     'utils',
-    'blog_users'
+    'blog_users',
+    'blogging'
     
 ]
 
