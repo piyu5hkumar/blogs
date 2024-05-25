@@ -130,3 +130,38 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'blog_users.User'
 
 CKEDITOR_UPLOAD_PATH = "image_upload/"
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Format', 'Font', 'FontSize'],
+            ['Bold', 'Italic', 'Underline'],
+            ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Link', 'Unlink'],
+            ['CodeSnippet', 'RemoveFormat', 'Source'],
+            {
+                'name': 'forms',
+                'items': [
+                    'Form',
+                    'Checkbox',
+                    'Radio',
+                    'TextField',
+                    'Textarea',
+                    'Select',
+                    'Button',
+                    'ImageButton',
+                    'HiddenField'
+                ]
+            },
+            {
+                'name': 'result', 
+                'items': [
+                    'Preview',
+                    'Maximize',
+                ]
+            },
+        ],
+        'extraPlugins': ','.join(['codesnippet']),
+    }
+}
