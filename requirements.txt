@@ -1,5 +1,6 @@
 asgiref==3.8.1
 asttokens==2.4.1
+Beaker==1.13.0
 decorator==5.1.1
 Django==5.0.6
 django-ckeditor==6.7.1
@@ -16,6 +17,7 @@ ptyprocess==0.7.0
 pure-eval==0.2.2
 Pygments==2.18.0
 python-dotenv==1.0.1
+redis==5.0.4
 six==1.16.0
 sqlparse==0.5.0
 stack-data==0.6.3

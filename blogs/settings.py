@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 from dotenv import load_dotenv, find_dotenv
+from beaker.cache import cache_regions
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -56,7 +57,7 @@ ROOT_URLCONF = 'blogs.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [f'{BASE_DIR}/blogs/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -165,3 +166,28 @@ CKEDITOR_CONFIGS = {
         'extraPlugins': ','.join(['codesnippet']),
     }
 }
+
+
+# configure regions
+cache_regions.update({
+    '5_min': {
+        'expire': 5 * 60,
+        'type': 'ext:redis',
+        'url': os.environ["REDIS_HOST"],
+    },
+    '10_min': {
+        'expire': 10 * 60,
+        'type': 'ext:redis',
+        'url': os.environ["REDIS_HOST"],
+    },
+    '30_min': {
+        'expire': 30 * 60,
+        'type': 'ext:redis',
+        'url': os.environ["REDIS_HOST"],
+    },
+    '1_hour': {
+        'expire': 60 * 60,
+        'type': 'ext:redis',
+        'url': os.environ["REDIS_HOST"],
+    }
+})
