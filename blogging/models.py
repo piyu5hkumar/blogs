@@ -25,6 +25,11 @@ class Like(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
+class Topic(BaseModel):
+    name = models.CharField(max_length=100)
+    total_blogs = models.PositiveBigIntegerField(default=0)
+
+
 #### Mappings ###
 
 
@@ -43,4 +48,6 @@ class LikeCommentMapping(BaseModel):
     like = models.ForeignKey(Like, on_delete=models.CASCADE)
 
 
-
+class TopicBlogMapping(BaseModel):
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
