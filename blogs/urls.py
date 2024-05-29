@@ -16,8 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+import blogging.views as blogging_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('ckeditor/', include('ckeditor_uploader.urls'))
+    path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('', blogging_view.home),
+    path("<str:topic_name>", blogging_view.list_all_blogs_wrt_topic),
 ]
