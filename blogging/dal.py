@@ -26,7 +26,9 @@ def get_active_blogs_wrt_topic(topic_name):
                 blog.title, 
                 blog.total_likes,
                 blog.total_comments,
-                blog.created_at
+                blog.created_at,
+                blog.title_slug,
+                topic.name topic_name
             FROM 
                 blogging_topic topic
                 JOIN blogging_topicblogmapping topicblogmapping ON topicblogmapping.topic_id = topic.id
@@ -37,7 +39,7 @@ def get_active_blogs_wrt_topic(topic_name):
                 AND blog.active
                 AND topic.name = '{topic_name}'
             ORDER BY
-                blog.created_at
+                blog.created_at DESC
         '''
     
         # print(query)

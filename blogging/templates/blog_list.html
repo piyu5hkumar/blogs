@@ -7,13 +7,28 @@
         display: inline-block;
     }
 
-    
+    .blog-list :hover{
+        color: red;
+    }
+
+    a {
+        color: black;
+    }
+
+    a:link {
+        text-decoration: none;
+    }
+
 </style>
+
     <div class="container mt-5">
         <ol class="list-group list-group-flush">
             {% for blog in all_blogs%}
-                <li class="shadow list-group-item d-flex justify-content-between align-items-center pt-3">
-                    <span class="item-title">{{ blog.title }} {{blog.created_at|date:"b d, Y"}}</span>
+                <li class="shadow-sm list-group-item d-flex justify-content-between align-items-center pt-3 mt-2 blog-list">
+                    <span class="item-title"> 
+                        <a href="{{ blog.topic_name }}/{{ blog.title_slug }}" class="stretched-link">{{ blog.title }} </a>
+                        {{blog.created_at|date:"b d, Y"}}
+                    </span>
                     
                     <div class="gap-3 d-md-flex justify-content-md-end">
                         <div class="svg-container justify-content-md-end">
