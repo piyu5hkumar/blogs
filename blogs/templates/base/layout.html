@@ -9,59 +9,79 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css" integrity="sha384-BY+fdrpOd3gfeRvTSMT+VUZmA728cfF9Z2G42xpaRkUGu2i3DyzpTURDo5A6CaLK" crossorigin="anonymous">
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+  <div class="d-flex flex-column vh-100">
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="">Home</a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Topics
-            </a>
-
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              {% block nav_bar_topics %}
-                {% for topic in topics_list%}
-                <li><a class="dropdown-item" href="{{ topic.name }}">{{ topic.name }} {{ topic.total_blogs }}</a></li>
-                {% endfor %}
-              {% endblock %}
-            </ul>
-          </li>
-          
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="false">Disabled</a>
-          </li>
-          
-          
-          <li class="nav-item">
-            <a class="nav-link" href="#">Sponsor</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">RSS</a>
-          </li>
-        </ul>
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+  
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+  
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+  
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="">Home</a>
+            </li>
+  
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Topics
+              </a>
+  
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                {% block nav_bar_topics %}
+                  {% for topic in topics_list%}
+                  <li><a class="dropdown-item" href="{{ topic.name }}">{{ topic.name }} {{ topic.total_blogs }}</a></li>
+                  {% endfor %}
+                {% endblock %}
+              </ul>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="false">Disabled</a>
+            </li>
+            
+            
+            <li class="nav-item">
+              <a class="nav-link" href="#">Sponsor</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">RSS</a>
+            </li>
+          </ul>
+          <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
       </div>
-    </div>
-  </nav>
+    </nav>
 
-    {% block content %}
-    {% endblock %}
+    <div class="p-2 flex-fill container">
+      {% block content %}
+      {% endblock %}
+    </div>
+
+    <div class="container">
+      <footer class="py-3 my-4">
+        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+          <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
+          <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
+          <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
+          <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
+          <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+        </ul>
+        <p class="text-center text-body-secondary">© 2024 Company, Inc</p>
+      </footer>
+    </div>
+
+  </div>
 
 </body>
 </html>
