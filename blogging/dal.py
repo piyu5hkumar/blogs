@@ -25,6 +25,7 @@ def get_active_blogs_wrt_topic(topic_name):
             SELECT
                 blog.title, 
                 blog.total_likes,
+                blog.total_read_time,
                 blog.total_comments,
                 blog.created_at,
                 blog.title_slug,

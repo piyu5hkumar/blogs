@@ -6,6 +6,9 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.utils.text import slugify
+from bs4 import BeautifulSoup
+import re
+
 
 
 
@@ -16,15 +19,25 @@ class Blog(BaseModel):
     content = RichTextUploadingField()
     total_likes = models.PositiveIntegerField(default=0)
     total_comments = models.PositiveIntegerField(default=0)
-
+    total_read_time = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.title
 
 
 @receiver(pre_save, sender=Blog)
-def set_title_slug(sender, instance: Blog, **kwargs):
+def update_blog(sender, instance: Blog, **kwargs):
     instance.title_slug = slugify(instance.title)
+    soup = BeautifulSoup(instance.content, 'html.parser')
+    
+    text = soup.get_text()
+
+    cleaned_text = re.sub(r'\s+', ' ', text)
+    cleaned_text = re.sub(r'&nbsp;', ' ', cleaned_text)
+    cleaned_text = re.sub(r'\r\n', ' ', cleaned_text)
+    
+    instance.total_read_time = round(len(cleaned_text.split()) / 200)
+
 
 
 class Comment(BaseModel):
