@@ -2,6 +2,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv, find_dotenv
 from beaker.cache import cache_regions
+import datetime
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -191,3 +192,18 @@ cache_regions.update({
         'url': os.environ["REDIS_HOST"],
     }
 })
+
+
+# DRF Configs
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated'
+    ]
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(minutes=30)
+}
