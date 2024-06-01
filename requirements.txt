@@ -6,6 +6,8 @@ decorator==5.1.1
 Django==5.0.6
 django-ckeditor==6.7.1
 django-js-asset==2.2.0
+djangorestframework==3.15.1
+djangorestframework-simplejwt==5.3.1
 executing==2.0.1
 ipython==8.24.0
 jedi==0.19.1
@@ -17,6 +19,7 @@ prompt-toolkit==3.0.43
 ptyprocess==0.7.0
 pure-eval==0.2.2
 Pygments==2.18.0
+PyJWT==2.8.0
 python-dotenv==1.0.1
 redis==5.0.4
 six==1.16.0
