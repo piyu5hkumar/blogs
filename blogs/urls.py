@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-import blogging.views as blogging_view
+import blogging.template_views as blogging_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
