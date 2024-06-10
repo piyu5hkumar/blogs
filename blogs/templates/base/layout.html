@@ -12,28 +12,30 @@
 
   <div class="d-flex flex-column vh-100">
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container-fluid">
+    <nav class="navbar navbar-expand-sm navbar-light">
+      <div class="container">
+        <a class="navbar-brand" href="index.html"><i class='uil uil-user'></i>Blogs</a>
   
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon"></span>
           <span class="navbar-toggler-icon"></span>
         </button>
   
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-  
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav mx-auto">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="">Home</a>
+              <a href="#home" class="nav-link"><span data-hover="Home">Home</span></a>
             </li>
-  
             <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
+              <a href="#link" class="nav-link"><span data-hover="Link">Link</span></a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Topics
               </a>
-  
+
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 {% block nav_bar_topics %}
                   {% for topic in topics_list%}
@@ -42,12 +44,11 @@
                 {% endblock %}
               </ul>
             </li>
-            
+
             <li class="nav-item">
               <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="false">Disabled</a>
             </li>
-            
-            
+
             <li class="nav-item">
               <a class="nav-link" href="#">Sponsor</a>
             </li>
@@ -55,10 +56,7 @@
               <a class="nav-link" href="#">RSS</a>
             </li>
           </ul>
-          <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
+
         </div>
       </div>
     </nav>
