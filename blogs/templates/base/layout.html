@@ -14,7 +14,7 @@
 
     <nav class="navbar navbar-expand-sm navbar-light">
       <div class="container">
-        <a class="navbar-brand" href="index.html"><i class='uil uil-user'></i>Blogs</a>
+        <a class="navbar-brand" href="{{ request.scheme }}://{{ request.get_host }}"><i class='uil uil-user'></i>Blogs</a>
   
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
           aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,9 +27,6 @@
           <ul class="navbar-nav mx-auto">
             <li class="nav-item">
               <a href="#home" class="nav-link"><span data-hover="Home">Home</span></a>
-            </li>
-            <li class="nav-item">
-              <a href="#link" class="nav-link"><span data-hover="Link">Link</span></a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
