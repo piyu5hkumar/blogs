@@ -12,6 +12,7 @@ def get_active_topics_and_total_blogs():
                 blogging_topic
             WHERE
                 active = 1
+                AND total_blogs > 0
         '''
     
         # print(query)
