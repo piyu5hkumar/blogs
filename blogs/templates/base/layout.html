@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +11,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css" integrity="sha384-BY+fdrpOd3gfeRvTSMT+VUZmA728cfF9Z2G42xpaRkUGu2i3DyzpTURDo5A6CaLK" crossorigin="anonymous">
 </head>
 <body>
-
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+  
   <div class="d-flex flex-column vh-100">
 
     <nav class="navbar navbar-expand-sm navbar-light">
@@ -26,31 +29,41 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav mx-auto">
             <li class="nav-item">
-              <a href="#home" class="nav-link"><span data-hover="Home">Home</span></a>
+              <a href="#home" class="nav-link">
+                <span data-hover="Home">Home</span>
+              </a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Topics
+                <span data-hover="Topics">Topics</span>
               </a>
 
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 {% block nav_bar_topics %}
                   {% for topic in topics_list%}
-                  <li><a class="dropdown-item" href="{{ request.scheme }}://{{ request.get_host }}/{{ topic.name }}">{{ topic.name }} {{ topic.total_blogs }}</a></li>
+                    <li>
+                        <a class="dropdown-item" href="{{ request.scheme }}://{{ request.get_host }}/{{ topic.name }}">{{ topic.name }} {{ topic.total_blogs }}</a>
+                    </li>
                   {% endfor %}
                 {% endblock %}
               </ul>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="false">Disabled</a>
+              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="false">
+                  <span data-hover="Disabled">Disabled</span>
+              </a>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="#">Sponsor</a>
+              <a class="nav-link" href="#">
+                  <span data-hover="Sponsor">Sponsor</span>
+              </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">RSS</a>
+              <a class="nav-link" href="#">
+                <span data-hover="RSS">RSS</span>
+              </a>
             </li>
           </ul>
 
