@@ -11,6 +11,7 @@ router.registry.extend(user_router.registry)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('ckeditor/', include('ckeditor_uploader.urls')),
+    path("login/", blogging_view.login),
     path('', blogging_view.home),
     path("<str:topic_name>/<str:blog_title_slug>", blogging_view.show_blog),
     path("<str:topic_name>", blogging_view.list_all_blogs_wrt_topic),

@@ -43,3 +43,10 @@ def show_blog(request, topic_name, blog_title_slug):
         **nav_bar_data(request=request)
     }
     return render(request, "blog.html", context=context)
+
+
+def login(request):
+    context = {
+        **nav_bar_data(request=request)
+    }
+    return render(request, "login.html", context=context)
