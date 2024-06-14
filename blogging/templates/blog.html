@@ -3,4 +3,21 @@
 {% block content %}
         <h1 class="text-center">{{ title|safe }}</h1>
         {{ content|safe }}
+
+        <div class="gap-3 d-md-flex justify-content-center" style="margin-top: 50px;">
+                <div class="btn svg-container justify-content-md-end">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#000000"><path d="M716-120H272v-512l278-288 39 31q6 5 9 14t3 22v10l-45 211h299q24 0 42 18t18 42v81.84q0 7.16 1.5 14.66T915-461L789-171q-8.88 21.25-29.59 36.12Q738.69-120 716-120Zm-384-60h397l126-299v-93H482l53-249-203 214v427Zm0-427v427-427Zm-60-25v60H139v392h133v60H79v-512h193Z"/></svg>
+                        <span class="shadow position-absolute top-0 start-100 translate-middle badge rounded-pill text-dark">
+                                {{ total_likes }}
+                        </span>
+                </div>
+
+                <div class="btn svg-container justify-content-md-end">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#000000"><path d="M727-80q-47.5 0-80.75-33.35Q613-146.69 613-194.33q0-6.67 1.5-16.31 1.5-9.65 4.5-17.36L316-404q-15 17-37 27.5T234-366q-47.5 0-80.75-33.25T120-480q0-47.5 33.25-80.75T234-594q23 0 44 9t38 26l303-174q-3-7.07-4.5-15.91T613-766q0-47.5 33.25-80.75T727-880q47.5 0 80.75 33.25T841-766q0 47.5-33.25 80.75T727-652q-23.35 0-44.68-7.5Q661-667 646-684L343-516q2 8 3.5 18.5t1.5 17.74q0 7.24-1.5 15T343-449l303 172q15-14 35-22.5t46-8.5q47.5 0 80.75 33.25T841-194q0 47.5-33.25 80.75T727-80Zm.04-632q22.96 0 38.46-15.54 15.5-15.53 15.5-38.5 0-22.96-15.54-38.46-15.53-15.5-38.5-15.5-22.96 0-38.46 15.54-15.5 15.53-15.5 38.5 0 22.96 15.54 38.46 15.53 15.5 38.5 15.5Zm-493 286q22.96 0 38.46-15.54 15.5-15.53 15.5-38.5 0-22.96-15.54-38.46-15.53-15.5-38.5-15.5-22.96 0-38.46 15.54-15.5 15.53-15.5 38.5 0 22.96 15.54 38.46 15.53 15.5 38.5 15.5Zm493 286q22.96 0 38.46-15.54 15.5-15.53 15.5-38.5 0-22.96-15.54-38.46-15.53-15.5-38.5-15.5-22.96 0-38.46 15.54-15.5 15.53-15.5 38.5 0 22.96 15.54 38.46 15.53 15.5 38.5 15.5ZM727-766ZM234-480Zm493 286Z"/></svg>
+                        <span class="shadow position-absolute top-0 start-100 translate-middle badge rounded-pill text-dark">
+                                {{ total_shares }}
+                        </span>
+                </div>
+        </div>
+
 {% endblock %}

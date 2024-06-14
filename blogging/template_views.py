@@ -36,6 +36,9 @@ def show_blog(request, topic_name, blog_title_slug):
     blog = blogging_models.Blog.objects.filter(title_slug=blog_title_slug).first()
     context = {
         'title': blog.title,
+        'total_likes': blog.total_likes,
+        'total_comments': blog.total_comments,
+        'total_shares': 3,
         'content': blog.content,
         **nav_bar_data(request=request)
     }
