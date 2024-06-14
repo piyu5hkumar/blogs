@@ -13,7 +13,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email_verification = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    user_type = models.CharField(max_length=50, choices=UserType.choices, default=UserType.TENANT_OPS)
+    user_type = models.CharField(max_length=50, choices=UserType.choices, default=UserType.NORMAL)
 
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
