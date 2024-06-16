@@ -5,8 +5,8 @@
         <h1 id="form-title" class="text-center">Sign In</h1>
 
         <!-- Login Form -->
-        <div id="login-form" class="form-content">
-                <form>
+        <div id="login-div" class="form-content">
+                <form id="login-form">
                         
                         <div data-mdb-input-init class="form-outline mb-4">
                                 <input type="email" id="login-email" class="form-control" required style="background-color: beige;">
@@ -32,9 +32,9 @@
         </div>
 
         <!-- Registration Form -->
-        <div id="register-form" class="form-content"
+        <div id="register-div" class="form-content"
                 style="opacity: 0; visibility: hidden; position: absolute; top: 0;">
-                <form>
+                <form id="registration-form">
                         <div data-mdb-input-init class="form-outline mb-4">
                                 <input type="text" id="register-name" class="form-control" required style="background-color: beige;">
                                 <label class="form-label" for="register-name">Name</label>
@@ -71,37 +71,39 @@
 <script>
         document.getElementById('toggle-to-register').addEventListener('click', function (event) {
                 event.preventDefault();
-                document.getElementById('login-form').style.opacity = '0';
-                document.getElementById('login-form').style.visibility = 'hidden';
+                document.getElementById('login-div').style.opacity = '0';
+                document.getElementById('login-div').style.visibility = 'hidden';
                 setTimeout(function () {
-                        document.getElementById('login-form').style.position = 'absolute';
-                        document.getElementById('register-form').style.position = 'relative';
-                        document.getElementById('register-form').style.opacity = '1';
-                        document.getElementById('register-form').style.visibility = 'visible';
+                        document.getElementById('login-div').style.position = 'absolute';
+                        document.getElementById('register-div').style.position = 'relative';
+                        document.getElementById('register-div').style.opacity = '1';
+                        document.getElementById('register-div').style.visibility = 'visible';
                         document.getElementById('form-title').textContent = 'Register';
                 }, 500); // match the transition duration
         });
 
         document.getElementById('toggle-to-login').addEventListener('click', function (event) {
                 event.preventDefault();
-                document.getElementById('register-form').style.opacity = '0';
-                document.getElementById('register-form').style.visibility = 'hidden';
+                document.getElementById('register-div').style.opacity = '0';
+                document.getElementById('register-div').style.visibility = 'hidden';
                 setTimeout(function () {
-                        document.getElementById('register-form').style.position = 'absolute';
-                        document.getElementById('login-form').style.position = 'relative';
-                        document.getElementById('login-form').style.opacity = '1';
-                        document.getElementById('login-form').style.visibility = 'visible';
+                        document.getElementById('register-div').style.position = 'absolute';
+                        document.getElementById('login-div').style.position = 'relative';
+                        document.getElementById('login-div').style.opacity = '1';
+                        document.getElementById('login-div').style.visibility = 'visible';
                         document.getElementById('form-title').textContent = 'Login';
                 }, 500); // match the transition duration
         });
 
 
         document.getElementById('register-button').addEventListener('click', function () {
-                // Get the values from the form fields
+                if(!document.getElementById('registration-form').checkValidity())
+                        return
+
                 const name = document.getElementById('register-name').value;
                 const email = document.getElementById('register-email').value;
                 const password = document.getElementById('register-password').value;
-
+                
                 // Make the Axios POST request
                 axios.post('{{ request.scheme }}://{{ request.get_host }}/api/v1/users/register/', {
                         name: name,
@@ -112,19 +114,19 @@
                                 'Content-Type': 'application/json'
                         }
                 })
-                        .then(response => {
-                                // Handle the response data
-                                console.log(response.data);
-                                alert('Registration successful!');
-                        })
-                        .catch(error => {
-                                if (error.response) {
-                                        appendAlert(`[${error.response.status}]: ${error.response.data.message}`, 'danger')
-                                } else {
-                                        showAlert('Registration failed: ' + error.message, 'danger');
-                                }
+                .then(response => {
+                        // Handle the response data
+                        console.log(response.data);
+                        alert('Registration successful!');
+                })
+                .catch(error => {
+                        if (error.response) {
+                                appendAlert(`[${error.response.status}]: ${error.response.data.message}`, 'danger')
+                        } else {
+                                showAlert('Registration failed: ' + error.message, 'danger');
+                        }
 
-                        });
+                });
         });
 </script>
 {% endblock %}
