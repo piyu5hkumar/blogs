@@ -27,5 +27,5 @@ def try_except_rollback_handler(func):
         except Exception as e:
             transaction.set_rollback(True)
             traceback.print_exc()
-            return APIResponse(success=False, message=repr(e), status=status.HTTP_400_BAD_REQUEST)
+            return APIResponse(success=False, message=str(e), status=status.HTTP_400_BAD_REQUEST)
     return wrapper
