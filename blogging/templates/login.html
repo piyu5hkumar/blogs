@@ -46,7 +46,7 @@
                         </div>
 
                         <div class="d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary">Register</button>
+                                <button type="button" id="register-button" class="btn btn-primary">Register</button>
                         </div>
 
                         <p class="text-center mt-4">Already a member? <a href="#" id="toggle-to-login">Login</a></p>
@@ -85,6 +85,38 @@
                         document.getElementById('login-form').style.visibility = 'visible';
                         document.getElementById('form-title').textContent = 'Login';
                 }, 500); // match the transition duration
+        });
+
+
+        document.getElementById('register-button').addEventListener('click', function () {
+                // Get the values from the form fields
+                const name = document.getElementById('register-name').value;
+                const email = document.getElementById('register-email').value;
+                const password = document.getElementById('register-password').value;
+
+                // Make the Axios POST request
+                axios.post('http://127.0.0.1:8000/api/v1/users/register/', {
+                        name: name,
+                        email: email,
+                        password: password
+                }, {
+                        headers: {
+                                'Content-Type': 'application/json'
+                        }
+                })
+                .then(response => {
+                        // Handle the response data
+                        console.log(response.data);
+                        alert('Registration successful!');
+                })
+                .catch(error => {
+                        if (error.response) {
+                                appendAlert(`[${error.response.status}]: ${error.response.data.message}`, 'danger')
+                        } else {
+                                showAlert('Registration failed: ' + error.message, 'danger');
+                        }
+
+                });
         });
 </script>
 {% endblock %}

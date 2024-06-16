@@ -19,8 +19,8 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*'] #TODO: NEED TO FIX THIS
+CORS_ORIGIN_ALLOW_ALL = True #TODO: NEED TO FIX THIS
 
 # Application definition
 
@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     # 3rd Parties
     'ckeditor',
     'ckeditor_uploader',
+    'corsheaders',
 
     # Apps
     'utils',
@@ -47,6 +48,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
