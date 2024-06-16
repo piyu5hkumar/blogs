@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from utils.custom_response import APIResponse
 from django.db import transaction
 from django.contrib.auth.hashers import check_password, make_password
+from utils.decorators import try_except_rollback_handler
 
 
 class UserViewSet(viewsets.GenericViewSet):
@@ -43,4 +44,25 @@ class UserViewSet(viewsets.GenericViewSet):
                 return APIResponse(success=False, message="Invalid refresh token.", status=status.HTTP_401_UNAUTHORIZED)
         else:
             return APIResponse(success=False, message=request_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
+
+    @action(detail=False, methods=['post'], permission_classes=[AllowAny])
+    @try_except_rollback_handler
+    def register(self, request):
+        class RequestSerializer(serializers.Serializer):
+            name = serializers.CharField(min_length=3)
+            email = serializers.EmailField(min_length=3)
+            password = serializers.CharField(min_length=8)
+
+        request_serializer = RequestSerializer(data=request.data)
+        if not request_serializer.is_valid():
+            return APIResponse(success=False, message=request_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        user = User()
+        user.name = request_serializer.data['name']
+        user.email = request_serializer.data['email']
+        user.password = make_password(request_serializer.data['password'])
+        user.save()
+
+        refresh = RefreshToken.for_user(user)
+        return APIResponse(data={'refresh_token': str(refresh), 'access_token': str(refresh.access_token)}, status=status.HTTP_200_OK)
