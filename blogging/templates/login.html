@@ -14,12 +14,12 @@
                         </div>
 
                         <div data-mdb-input-init class="form-outline mb-4">
-                                <input type="password" id="login-password" class="form-control" required style="background-color: beige;" minlength="8">
+                                <input type="password" id="login-password" class="form-control" required style="background-color: beige;">
                                 <label class="form-label" for="login-password">Password</label>
                         </div>
 
                         <div class="d-flex justify-content-center">
-                                <button type="submit" id="sign-in-button" class="btn btn-light"
+                                <button type="submit" id="login-button" class="btn btn-light"
                                         data-mdb-ripple-color="black">Sign in</button>
                         </div>
                 </form>
@@ -96,6 +96,40 @@
         });
 
 
+        // Signing In a User
+        document.getElementById('login-button').addEventListener('click', function () {
+                if(!document.getElementById('login-form').checkValidity())
+                        return
+
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                
+                // Make the Axios POST request
+                axios.post('{{ request.scheme }}://{{ request.get_host }}/api/v1/users/token/', {
+                        email: email,
+                        password: password
+                }, {
+                        headers: {
+                                'Content-Type': 'application/json'
+                        }
+                })
+                .then(response => {
+                        // Handle the response data
+                        console.log(response.data);
+                        alert('Login successful!');
+                })
+                .catch(error => {
+                        if (error.response) {
+                                appendAlert(`[${error.response.status}]: ${error.response.data.message}`, 'danger')
+                        } else {
+                                showAlert('Registration failed: ' + error.message, 'danger');
+                        }
+
+                });
+        });
+
+
+        // Registering a user
         document.getElementById('register-button').addEventListener('click', function () {
                 if(!document.getElementById('registration-form').checkValidity())
                         return
