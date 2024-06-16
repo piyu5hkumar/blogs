@@ -3,55 +3,63 @@
 {% block content %}
 <div class="container mt-5" style="margin-top: 50px; width: 30%; padding-bottom: 100px;">
         <h1 id="form-title" class="text-center">Sign In</h1>
-        <form id="auth-form">
-                <!-- Login Form -->
-                <div id="login-form" class="form-content">
+
+        <!-- Login Form -->
+        <div id="login-form" class="form-content">
+                <form>
+                        
                         <div data-mdb-input-init class="form-outline mb-4">
-                                <input type="email" id="login-email" class="form-control" />
+                                <input type="email" id="login-email" class="form-control" required style="background-color: beige;">
                                 <label class="form-label" for="login-email">Email address</label>
                         </div>
 
                         <div data-mdb-input-init class="form-outline mb-4">
-                                <input type="password" id="login-password" class="form-control" />
+                                <input type="password" id="login-password" class="form-control" required style="background-color: beige;">
                                 <label class="form-label" for="login-password">Password</label>
                         </div>
 
                         <div class="d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary">Sign in</button>
+                                <button type="submit" id="sign-in-button" class="btn btn-light"
+                                        data-mdb-ripple-color="black">Sign in</button>
                         </div>
+                </form>
 
-                        <div class="row mb-4 mt-4">
-                                <a class="text-center" href="#!">Forgot password?</a>
-                        </div>
-
-                        <p class="text-center">Not a member? <a href="#" id="toggle-to-register">Register</a></p>
+                <div class="row mb-4 mt-4">
+                        <a class="text-center" href="#!">Forgot password?</a>
                 </div>
 
-                <!-- Registration Form -->
-                <div id="register-form" class="form-content"
-                        style="opacity: 0; visibility: hidden; position: absolute; top: 0;">
+                <p class="text-center">Not a member? <a href="#" id="toggle-to-register">Register</a></p>
+        </div>
+
+        <!-- Registration Form -->
+        <div id="register-form" class="form-content"
+                style="opacity: 0; visibility: hidden; position: absolute; top: 0;">
+                <form class="row g-3 needs-validation">
                         <div data-mdb-input-init class="form-outline mb-4">
-                                <input type="text" id="register-name" class="form-control" />
+                                <input type="text" id="register-name" class="form-control" required style="background-color: beige;">
                                 <label class="form-label" for="register-name">Name</label>
                         </div>
 
                         <div data-mdb-input-init class="form-outline mb-4">
-                                <input type="email" id="register-email" class="form-control" />
+                                <input type="email" id="register-email" class="form-control" required style="background-color: beige;">
                                 <label class="form-label" for="register-email">Email address</label>
                         </div>
 
                         <div data-mdb-input-init class="form-outline mb-4">
-                                <input type="password" id="register-password" class="form-control" />
+                                <input type="password" id="register-password" class="form-control" required style="background-color: beige;">
                                 <label class="form-label" for="register-password">Password</label>
                         </div>
 
+
                         <div class="d-flex justify-content-center">
-                                <button type="button" id="register-button" class="btn btn-primary">Register</button>
+                                <button type="submit" id="register-button" class="btn btn-light"
+                                        data-mdb-ripple-color="black">Register</button>
                         </div>
 
-                        <p class="text-center mt-4">Already a member? <a href="#" id="toggle-to-login">Login</a></p>
-                </div>
-        </form>
+                        <p class="text-center mt-4">Already a member? <a href="#" id="toggle-to-login">Login</a>
+                        </p>
+        </div>
+
 </div>
 
 <style>
@@ -95,7 +103,7 @@
                 const password = document.getElementById('register-password').value;
 
                 // Make the Axios POST request
-                axios.post('http://127.0.0.1:8000/api/v1/users/register/', {
+                axios.post('{{ request.scheme }}://{{ request.get_host }}/api/v1/users/register/', {
                         name: name,
                         email: email,
                         password: password
@@ -104,19 +112,19 @@
                                 'Content-Type': 'application/json'
                         }
                 })
-                .then(response => {
-                        // Handle the response data
-                        console.log(response.data);
-                        alert('Registration successful!');
-                })
-                .catch(error => {
-                        if (error.response) {
-                                appendAlert(`[${error.response.status}]: ${error.response.data.message}`, 'danger')
-                        } else {
-                                showAlert('Registration failed: ' + error.message, 'danger');
-                        }
+                        .then(response => {
+                                // Handle the response data
+                                console.log(response.data);
+                                alert('Registration successful!');
+                        })
+                        .catch(error => {
+                                if (error.response) {
+                                        appendAlert(`[${error.response.status}]: ${error.response.data.message}`, 'danger')
+                                } else {
+                                        showAlert('Registration failed: ' + error.message, 'danger');
+                                }
 
-                });
+                        });
         });
 </script>
 {% endblock %}
