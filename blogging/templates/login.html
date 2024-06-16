@@ -14,7 +14,7 @@
                         </div>
 
                         <div data-mdb-input-init class="form-outline mb-4">
-                                <input type="password" id="login-password" class="form-control" required style="background-color: beige;">
+                                <input type="password" id="login-password" class="form-control" required style="background-color: beige;" minlength="8">
                                 <label class="form-label" for="login-password">Password</label>
                         </div>
 
@@ -34,7 +34,7 @@
         <!-- Registration Form -->
         <div id="register-form" class="form-content"
                 style="opacity: 0; visibility: hidden; position: absolute; top: 0;">
-                <form class="row g-3 needs-validation">
+                <form>
                         <div data-mdb-input-init class="form-outline mb-4">
                                 <input type="text" id="register-name" class="form-control" required style="background-color: beige;">
                                 <label class="form-label" for="register-name">Name</label>
@@ -46,7 +46,7 @@
                         </div>
 
                         <div data-mdb-input-init class="form-outline mb-4">
-                                <input type="password" id="register-password" class="form-control" required style="background-color: beige;">
+                                <input type="password" id="register-password" class="form-control" required style="background-color: beige;" minlength="8">
                                 <label class="form-label" for="register-password">Password</label>
                         </div>
 
@@ -56,8 +56,8 @@
                                         data-mdb-ripple-color="black">Register</button>
                         </div>
 
-                        <p class="text-center mt-4">Already a member? <a href="#" id="toggle-to-login">Login</a>
-                        </p>
+                        <p class="text-center mt-4">Already a member? <a href="#" id="toggle-to-login">Login</a></p>
+                </form>
         </div>
 
 </div>
