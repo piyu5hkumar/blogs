@@ -1,6 +1,20 @@
 from typing import Iterable
 from django.db.backends.utils import CursorWrapper
 from collections import namedtuple
+from django.conf import settings
+from cryptography.fernet import Fernet
+
+
+def cipher(text: str) -> str:
+    fernet = Fernet(settings.FERNET_KEY)
+    binary_text = str.encode(text)
+    return fernet.encrypt(binary_text).decode()
+
+
+def decipher(text: str) -> str:
+    fernet = Fernet(settings.FERNET_KEY)
+    binary_text = str.encode(text)
+    return fernet.decrypt(binary_text).decode()
 
 
 def get_and_string_from_iterable(iterable: Iterable) -> str:

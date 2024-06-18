@@ -8,6 +8,7 @@ from utils.custom_response import APIResponse
 from django.db import transaction
 from django.contrib.auth.hashers import check_password, make_password
 from utils.decorators import try_except_rollback_handler
+from utils.helper import cipher, decipher
 
 
 class UserViewSet(viewsets.GenericViewSet):
@@ -24,11 +25,12 @@ class UserViewSet(viewsets.GenericViewSet):
             user = User.objects.filter(email=request_serializer.data.get('email')).first()
             if user and check_password(request.data.get('password'), user.password):
                 refresh = RefreshToken.for_user(user)
-                return APIResponse(data={'refresh_token': str(refresh), 'access_token': str(refresh.access_token)}, status=status.HTTP_200_OK)
+                return APIResponse(data={'refresh_token': cipher(str(refresh)), 'access_token': cipher(str(refresh.access_token))}, status=status.HTTP_200_OK)
             return APIResponse(success=False, message="Invalid username or password.", status=status.HTTP_401_UNAUTHORIZED)
         else:
             return APIResponse(success=False, message=request_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
+
     @action(detail=False, methods=['post'], permission_classes=[AllowAny])
     def refresh_token(self, request: Request) -> APIResponse:
         class RequestSerializer(serializers.Serializer):
@@ -38,8 +40,8 @@ class UserViewSet(viewsets.GenericViewSet):
         
         if request_serializer.is_valid():
             try:
-                refresh = RefreshToken(request_serializer.data['refresh_token'])
-                return APIResponse(data={'access_token': str(refresh.access_token)}, status=status.HTTP_200_OK)
+                refresh = decipher(RefreshToken(request_serializer.data['refresh_token']))
+                return APIResponse(data={'access_token': cipher(str(refresh.access_token))}, status=status.HTTP_200_OK)
             except:
                 return APIResponse(success=False, message="Invalid refresh token.", status=status.HTTP_401_UNAUTHORIZED)
         else:
