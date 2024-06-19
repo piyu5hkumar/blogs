@@ -100,6 +100,20 @@
   </div>
 
   <script>
+
+    axios.interceptors.request.use(
+      (config) => {
+        const accessToken = localStorage.getItem('access_token');
+        if (accessToken) {
+          config.headers.Authorization = accessToken;
+        }
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
+
     const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
     
     const appendAlert = (message, type) => {
