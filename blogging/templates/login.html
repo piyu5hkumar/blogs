@@ -1,12 +1,12 @@
 {% extends 'base/layout.html' %}
 
 {% block content %}
-<div class="container mt-5" style="margin-top: 50px; width: 30%; padding-bottom: 100px;">
+<div hidden id="login-or-registration" class="container mt-5" style="margin-top: 50px; width: 30%; padding-bottom: 100px;">
         <h1 id="form-title" class="text-center">Sign In</h1>
 
         <!-- Login Form -->
         <div id="login-div" class="form-content">
-                <form id="login-form">
+                <form id="login-form" onsubmit="return false">
                         
                         <div data-mdb-input-init class="form-outline mb-4">
                                 <input type="email" id="login-email" class="form-control" required style="background-color: beige;">
@@ -34,7 +34,7 @@
         <!-- Registration Form -->
         <div id="register-div" class="form-content"
                 style="opacity: 0; visibility: hidden; position: absolute; top: 0;">
-                <form id="registration-form">
+                <form id="registration-form" onsubmit="return false">
                         <div data-mdb-input-init class="form-outline mb-4">
                                 <input type="text" id="register-name" class="form-control" required style="background-color: beige;">
                                 <label class="form-label" for="register-name">Name</label>
@@ -69,6 +69,17 @@
 </style>
 
 <script>
+        window.onload = function() {
+                const accessToken = localStorage.getItem('access_token');
+                if (accessToken) {
+                        // Redirect to home page
+                        window.location.href = '/home'; // Change to your home page URL
+                } else {
+                        document.getElementById('login-or-registration').hidden = false;
+                }
+        };
+
+
         document.getElementById('toggle-to-register').addEventListener('click', function (event) {
                 event.preventDefault();
                 document.getElementById('login-div').style.opacity = '0';
@@ -115,8 +126,9 @@
                 })
                 .then(response => {
                         // Handle the response data
-                        console.log(response.data);
-                        alert('Login successful!');
+                        localStorage.setItem('access_token', response.data.data.access_token);
+                        localStorage.setItem('refresh_token', response.data.data.refresh_token);
+                        window.location.href = '/home';
                 })
                 .catch(error => {
                         if (error.response) {
