@@ -13,7 +13,7 @@ from utils.helper import cipher, decipher
 
 class UserViewSet(viewsets.GenericViewSet):
 
-    @action(detail=False, methods=['post'], permission_classes=[AllowAny])
+    @action(detail=False, methods=['post'], authentication_classes=[], permission_classes=[])
     def token(self, request: Request) -> APIResponse:
         class RequestSerializer(serializers.Serializer):
             email = serializers.EmailField(required=True)
@@ -31,7 +31,7 @@ class UserViewSet(viewsets.GenericViewSet):
             return APIResponse(success=False, message=request_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-    @action(detail=False, methods=['post'], permission_classes=[AllowAny])
+    @action(detail=False, methods=['post'], authentication_classes=[], permission_classes=[])
     def refresh_token(self, request: Request) -> APIResponse:
         class RequestSerializer(serializers.Serializer):
             refresh_token = serializers.CharField(required=True)
@@ -48,7 +48,7 @@ class UserViewSet(viewsets.GenericViewSet):
             return APIResponse(success=False, message=request_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-    @action(detail=False, methods=['post'], permission_classes=[AllowAny])
+    @action(detail=False, methods=['post'], authentication_classes=[], permission_classes=[])
     @try_except_rollback_handler
     def register(self, request):
         class RequestSerializer(serializers.Serializer):
