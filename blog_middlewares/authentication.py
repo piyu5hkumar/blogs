@@ -1,12 +1,10 @@
 from rest_framework.authentication import BaseAuthentication
 from rest_framework.exceptions import AuthenticationFailed
-# from django.contrib.auth.models import User
 from blog_users.models import User
 from django.conf import settings
 from utils.helper import decipher
 import jwt
 from cryptography.fernet import InvalidToken
-
 
 
 class TokenAuthentication(BaseAuthentication):
