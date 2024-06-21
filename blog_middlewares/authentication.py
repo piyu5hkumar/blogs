@@ -8,7 +8,8 @@ from cryptography.fernet import InvalidToken
 
 
 class TokenAuthentication(BaseAuthentication):
-    def authenticate(self, request):
+    @staticmethod
+    def authenticate(request):
         try:
             auth_header = request.headers.get('Authorization')
             if not auth_header:
@@ -26,3 +27,11 @@ class TokenAuthentication(BaseAuthentication):
         except Exception as e:
             raise AuthenticationFailed(str(e))
 
+
+
+class TokenAuthenticationNo403(BaseAuthentication):
+    def authenticate(self, request):
+        try:
+            return TokenAuthentication.authenticate(request)
+        except:
+            return (None, None)
