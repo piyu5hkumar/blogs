@@ -101,12 +101,46 @@ class BlogViewSet(viewsets.GenericViewSet):
             like_blog_mapping = LikeBlogMapping()
             like_blog_mapping.like = like
             like_blog_mapping.blog = blog
+            like_blog_mapping.active = True
+            like_blog_mapping.save()
 
             blog.total_likes += 1
             blog.save()
 
-        like_blog_mapping.active = True
-        like_blog_mapping.save()
+        elif like_blog_mapping.active == False:
+            like_blog_mapping.active = True
+            like_blog_mapping.save()
+
+            blog.total_likes += 1
+            blog.save()
+
+        return APIResponse(data="Done", status=status.HTTP_200_OK)
+
+
+    @action(detail=False, methods=['post'])
+    @try_except_rollback_handler
+    def unlike_blog(self, request):
+        class RequestSerializer(serializers.Serializer):
+            title_slug = serializers.SlugField()
+    
+        request_serializer = RequestSerializer(data=request.data)
+        if not request_serializer.is_valid():
+            return APIResponse(success=False, message=request_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        blog = Blog.objects.get(title_slug=request_serializer.data['title_slug'])
+        like = Like.objects.filter(user=self.request.user).first()
+        if not like:
+            like = Like()
+            like.user = self.request.user
+            like.save()
+
+        like_blog_mapping = LikeBlogMapping.objects.filter(like=like, blog=blog, active=True).first()
+        if like_blog_mapping:
+            like_blog_mapping.active = False
+            like_blog_mapping.save()
+            
+            blog.total_likes = max(blog.total_likes - 1, 0)
+            blog.save()
 
         return APIResponse(data="Done", status=status.HTTP_200_OK)
 
