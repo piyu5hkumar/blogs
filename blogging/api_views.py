@@ -10,7 +10,12 @@ from django.contrib.auth.hashers import check_password, make_password
 from utils.decorators import try_except_rollback_handler
 from utils.helper import cipher, decipher
 from blogging.models import Blog
-from blogging.dal import like_a_blog
+from blog_middlewares.authentication import TokenAuthenticationNo403
+from blogging.models import (
+    Blog, 
+    Like, 
+    LikeBlogMapping
+)
 
 
 class UserViewSet(viewsets.GenericViewSet):
@@ -83,8 +88,39 @@ class BlogViewSet(viewsets.GenericViewSet):
         request_serializer = RequestSerializer(data=request.data)
         if not request_serializer.is_valid():
             return APIResponse(success=False, message=request_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
 
         blog = Blog.objects.get(title_slug=request_serializer.data['title_slug'])
-        like_a_blog(blog=blog, user=request.user)
+        like = Like.objects.filter(user=self.request.user).first()
+        if not like:
+            like = Like()
+            like.user = self.request.user
+            like.save()
+
+        like_blog_mapping = LikeBlogMapping.objects.filter(like=like, blog=blog).first()
+        if not like_blog_mapping:
+            like_blog_mapping = LikeBlogMapping()
+            like_blog_mapping.like = like
+            like_blog_mapping.blog = blog
+
+            blog.total_likes += 1
+            blog.save()
+
+        like_blog_mapping.active = True
+        like_blog_mapping.save()
+
         return APIResponse(data="Done", status=status.HTTP_200_OK)
+
+
+    @action(detail=False, methods=['get'], authentication_classes=[TokenAuthenticationNo403], permission_classes=[])
+    def like_check(self, request):
+        class RequestSerializer(serializers.Serializer):
+            title_slug = serializers.SlugField()
+    
+        request_serializer = RequestSerializer(data=request.query_params)
+        if not request_serializer.is_valid():
+            return APIResponse(success=False, message=request_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        blog = Blog.objects.get(title_slug=request_serializer.data['title_slug'])
+        liked = LikeBlogMapping.objects.filter(like__user=self.request.user, blog=blog, active=True).exists()
+
+        return APIResponse(data={'liked': liked}, status=status.HTTP_200_OK)
