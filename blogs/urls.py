@@ -1,11 +1,15 @@
 from django.contrib import admin
 from django.urls import path, include
 import blogging.template_views as blogging_view
-from blogging.urls import user_router
+from blogging.urls import (
+    user_router,
+    blog_router
+) 
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.registry.extend(user_router.registry)
+router.registry.extend(blog_router.registry)
 
 
 urlpatterns = [

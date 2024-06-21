@@ -9,6 +9,8 @@ from django.db import transaction
 from django.contrib.auth.hashers import check_password, make_password
 from utils.decorators import try_except_rollback_handler
 from utils.helper import cipher, decipher
+from blogging.models import Blog
+from blogging.dal import like_a_blog
 
 
 class UserViewSet(viewsets.GenericViewSet):
@@ -68,3 +70,21 @@ class UserViewSet(viewsets.GenericViewSet):
 
         refresh = RefreshToken.for_user(user)
         return APIResponse(data={'refresh_token': str(refresh), 'access_token': str(refresh.access_token)}, status=status.HTTP_200_OK)
+
+
+class BlogViewSet(viewsets.GenericViewSet):
+
+    @action(detail=False, methods=['post'])
+    @try_except_rollback_handler
+    def like_blog(self, request):
+        class RequestSerializer(serializers.Serializer):
+            title_slug = serializers.SlugField()
+    
+        request_serializer = RequestSerializer(data=request.data)
+        if not request_serializer.is_valid():
+            return APIResponse(success=False, message=request_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+        blog = Blog.objects.get(title_slug=request_serializer.data['title_slug'])
+        like_a_blog(blog=blog, user=request.user)
+        return APIResponse(data="Done", status=status.HTTP_200_OK)

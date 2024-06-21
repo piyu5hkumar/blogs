@@ -1,5 +1,7 @@
 from django.db import connection
 from utils.helper import dictfetchall
+from blogging.models import Blog, Like, LikeBlogMapping
+from blog_users.models import User
 
 
 def get_active_topics_and_total_blogs():
@@ -47,3 +49,17 @@ def get_active_blogs_wrt_topic(topic_name):
         # print(query)
         cursor.execute(query)
         return dictfetchall(cursor)
+
+
+def like_a_blog(blog: Blog, user:User):
+    like = Like()
+    like.user = user
+    like.save()
+
+    like_blog_mapping = LikeBlogMapping()
+    like_blog_mapping.like = like
+    like_blog_mapping.blog = blog
+    like_blog_mapping.save()
+
+    blog.total_likes += 1
+    blog.save()

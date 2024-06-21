@@ -35,6 +35,7 @@ def list_all_blogs_wrt_topic(request, topic_name):
 def show_blog(request, topic_name, blog_title_slug):
     blog = blogging_models.Blog.objects.filter(title_slug=blog_title_slug).first()
     context = {
+        'title_slug': blog.title_slug,
         'title': blog.title,
         'total_likes': blog.total_likes,
         'total_comments': blog.total_comments,
