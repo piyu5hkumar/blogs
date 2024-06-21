@@ -52,14 +52,18 @@ def get_active_blogs_wrt_topic(topic_name):
 
 
 def like_a_blog(blog: Blog, user:User):
-    like = Like()
-    like.user = user
-    like.save()
+    like = Like.objects.filter(user=user).first()
+    if not like:
+        like = Like()
+        like.user = user
+        like.save()
 
-    like_blog_mapping = LikeBlogMapping()
-    like_blog_mapping.like = like
-    like_blog_mapping.blog = blog
-    like_blog_mapping.save()
+    like_blog_mapping = LikeBlogMapping.objects.filter(like=like, blog=blog).first()
+    if not like_blog_mapping:
+        like_blog_mapping = LikeBlogMapping()
+        like_blog_mapping.like = like
+        like_blog_mapping.blog = blog
+        like_blog_mapping.save()
 
-    blog.total_likes += 1
-    blog.save()
+        blog.total_likes += 1
+        blog.save()
