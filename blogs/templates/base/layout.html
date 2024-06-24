@@ -17,14 +17,97 @@
 <body>
   <style>
     .svg-container {
-        position: relative;
-        display: inline-block;
+      position: relative;
+      display: inline-block;
+    }
+    .form-content {
+      transition: opacity 0.5s ease, visibility 0.5s ease-in-out;
     }
   </style>
+  
   <link rel="stylesheet" href="{% static 'style.css' %}">
-  <div id="liveAlertPlaceholder" class="position-fixed top-0 end-0 p-4" style="z-index: 1000;"></div>
+  <div id="liveAlertPlaceholder" class="position-fixed top-0 end-0 p-4" style="z-index: 9000;"></div>
+
+
+  <!-- Button trigger modal -->
+  <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginSignUpModal">
+    Launch demo modal
+  </button> -->
 
   
+  <div class="modal fade" id="loginSignUpModal" tabindex="-1" aria-labelledby="loginSignUpModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" style="display: block;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div id="login-or-registration" class="modal-body container mt-5"
+          style="margin-top: 50px; width: 50%; padding-bottom: 100px;">
+          <h1 id="form-title" class="text-center">Sign In</h1>
+  
+          <!-- Login Form -->
+          <div id="login-div" class="form-content">
+            <form id="login-form" onsubmit="return false">
+  
+              <div data-mdb-input-init class="form-outline mb-4">
+                <input type="email" id="login-email" class="form-control" required style="background-color: beige;">
+                <label class="form-label" for="login-email">Email
+                  address</label>
+              </div>
+  
+              <div data-mdb-input-init class="form-outline mb-4">
+                <input type="password" id="login-password" class="form-control" required style="background-color: beige;">
+                <label class="form-label" for="login-password">Password</label>
+              </div>
+  
+              <div class="d-flex justify-content-center">
+                <button type="submit" id="login-button" class="btn btn-light" data-mdb-ripple-color="black">Sign
+                  in</button>
+              </div>
+            </form>
+  
+            <div class="row mb-4 mt-4">
+              <a class="text-center" href="#!">Forgot password?</a>
+            </div>
+  
+            <p class="text-center">Not a member? <a href="#" id="toggle-to-register">Register</a></p>
+          </div>
+  
+          <!-- Registration Form -->
+          <div id="register-div" class="form-content" style="opacity: 0; visibility: hidden; position: absolute; top: 0;">
+            <form id="registration-form" onsubmit="return false">
+              <div data-mdb-input-init class="form-outline mb-4">
+                <input type="text" id="register-name" class="form-control" required style="background-color: beige;">
+                <label class="form-label" for="register-name">Name</label>
+              </div>
+  
+              <div data-mdb-input-init class="form-outline mb-4">
+                <input type="email" id="register-email" class="form-control" required style="background-color: beige;">
+                <label class="form-label" for="register-email">Email
+                  address</label>
+              </div>
+  
+              <div data-mdb-input-init class="form-outline mb-4">
+                <input type="password" id="register-password" class="form-control" required
+                  style="background-color: beige;" minlength="8">
+                <label class="form-label" for="register-password">Password</label>
+              </div>
+  
+  
+              <div class="d-flex justify-content-center">
+                <button type="submit" id="register-button" class="btn btn-light"
+                  data-mdb-ripple-color="black">Register</button>
+              </div>
+  
+              <p class="text-center mt-4">Already a member? <a href="#" id="toggle-to-login">Login</a></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <div class="d-flex flex-column vh-100">
 
     <nav class="navbar navbar-expand-sm navbar-light">
@@ -101,6 +184,9 @@
 
   <script>
 
+    const loginSignUpModal = new bootstrap.Modal(document.getElementById('loginSignUpModal'));
+    const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+
     axios.interceptors.request.use(
       (config) => {
         config.headers['Content-Type'] = 'application/json'
@@ -120,16 +206,16 @@
       (response) => response,
       (error) => {
         if (error.response && error.response.status === 403) {
-          console.log('403 error detected, redirecting to login page.');
           localStorage.removeItem('access_token');
           localStorage.removeItem('refresh_token');
-          window.location.href = '/login/'; // Change to your login page URL
+          loginSignUpModal.show();
         }
-        // return Promise.reject(error);
+        else {
+          return Promise.reject(error);
+        }
       }
     );
 
-    const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
     
     const appendAlert = (message, type) => {
       const wrapper = document.createElement('div')
@@ -142,6 +228,93 @@
 
       alertPlaceholder.append(wrapper)
     }
+
+    document.getElementById('toggle-to-register').addEventListener('click', function (event) {
+      event.preventDefault();
+      document.getElementById('login-div').style.opacity = '0';
+      document.getElementById('login-div').style.visibility = 'hidden';
+      setTimeout(function () {
+        document.getElementById('login-div').style.position = 'absolute';
+        document.getElementById('register-div').style.position = 'relative';
+        document.getElementById('register-div').style.opacity = '1';
+        document.getElementById('register-div').style.visibility = 'visible';
+        document.getElementById('form-title').textContent = 'Register';
+      }, 500); // match the transition duration
+    });
+
+
+    document.getElementById('toggle-to-login').addEventListener('click', function (event) {
+      event.preventDefault();
+      document.getElementById('register-div').style.opacity = '0';
+      document.getElementById('register-div').style.visibility = 'hidden';
+      setTimeout(function () {
+        document.getElementById('register-div').style.position = 'absolute';
+        document.getElementById('login-div').style.position = 'relative';
+        document.getElementById('login-div').style.opacity = '1';
+        document.getElementById('login-div').style.visibility = 'visible';
+        document.getElementById('form-title').textContent = 'Login';
+      }, 500); // match the transition duration
+    });
+
+    // Signing In a User
+    document.getElementById('login-button').addEventListener('click', function () {
+      if(!document.getElementById('login-form').checkValidity())
+        return
+
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+      
+      // Make the Axios POST request
+      axios.post('{{ request.scheme }}://{{ request.get_host }}/api/v1/users/token/', {
+        email: email,
+        password: password
+      })
+      .then(response => {
+        // Handle the response data
+        localStorage.setItem('access_token', response.data.data.access_token);
+        localStorage.setItem('refresh_token', response.data.data.refresh_token);
+        loginSignUpModal.hide()
+      })
+      .catch(error => {
+        if (error.response) {
+          appendAlert(`[${error.response.status}]: ${error.response.data.message}`, 'danger')
+        } else {
+          showAlert('Registration failed: ' + error.message, 'danger');
+        }
+      });
+    });
+
+
+    // Registering a user
+    document.getElementById('register-button').addEventListener('click', function () {
+      if(!document.getElementById('registration-form').checkValidity())
+        return
+
+      const name = document.getElementById('register-name').value;
+      const email = document.getElementById('register-email').value;
+      const password = document.getElementById('register-password').value;
+
+      // Make the Axios POST request
+      axios.post('{{ request.scheme }}://{{ request.get_host }}/api/v1/users/register/', {
+        name: name,
+        email: email,
+        password: password
+      })
+      .then(response => {
+        // Handle the response data
+        console.log(response.data);
+        alert('Registration successful!');
+        loginSignUpModal.hide()
+      })
+      .catch(error => {
+        if (error.response) {
+          appendAlert(`[${error.response.status}]: ${error.response.data.message}`, 'danger')
+        } else {
+          showAlert('Registration failed: ' + error.message, 'danger');
+        }
+
+      });
+    });
   </script>
 
 </body>
