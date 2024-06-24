@@ -114,7 +114,7 @@ class BlogViewSet(viewsets.GenericViewSet):
             blog.total_likes += 1
             blog.save()
 
-        return APIResponse(data="Done", status=status.HTTP_200_OK)
+        return APIResponse(data={'total_likes': blog.total_likes}, status=status.HTTP_200_OK)
 
 
     @action(detail=False, methods=['post'])
@@ -142,7 +142,7 @@ class BlogViewSet(viewsets.GenericViewSet):
             blog.total_likes = max(blog.total_likes - 1, 0)
             blog.save()
 
-        return APIResponse(data="Done", status=status.HTTP_200_OK)
+        return APIResponse(data={'total_likes': blog.total_likes}, status=status.HTTP_200_OK)
 
 
     @action(detail=False, methods=['get'], authentication_classes=[TokenAuthenticationNo403], permission_classes=[])
@@ -157,4 +157,4 @@ class BlogViewSet(viewsets.GenericViewSet):
         blog = Blog.objects.get(title_slug=request_serializer.data['title_slug'])
         liked = LikeBlogMapping.objects.filter(like__user=self.request.user, blog=blog, active=True).exists()
 
-        return APIResponse(data={'liked': liked}, status=status.HTTP_200_OK)
+        return APIResponse(data={'liked': liked, 'total_likes': blog.total_likes}, status=status.HTTP_200_OK)
