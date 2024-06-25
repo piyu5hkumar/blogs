@@ -43,7 +43,7 @@
         </div>
         <div id="login-or-registration" class="modal-body container mt-5"
           style="margin-top: 50px; width: 50%; padding-bottom: 100px;">
-          <h1 id="form-title" class="text-center">Sign In</h1>
+          <h1 id="form-title" class="text-center">Login</h1>
   
           <!-- Login Form -->
           <div id="login-div" class="form-content">
@@ -61,8 +61,7 @@
               </div>
   
               <div class="d-flex justify-content-center">
-                <button type="submit" id="login-button" class="btn btn-light" data-mdb-ripple-color="black">Sign
-                  in</button>
+                <button type="submit" id="login-button" class="btn btn-light" data-mdb-ripple-color="black">Login</button>
               </div>
             </form>
   
@@ -70,33 +69,33 @@
               <a class="text-center" href="#!">Forgot password?</a>
             </div>
   
-            <p class="text-center">Not a member? <a href="#" id="toggle-to-register">Register</a></p>
+            <p class="text-center">Not a member? <a href="#" id="toggle-to-register">Sign Up</a></p>
           </div>
   
           <!-- Registration Form -->
-          <div id="register-div" class="form-content" style="opacity: 0; visibility: hidden; position: absolute; top: 0;">
-            <form id="registration-form" onsubmit="return false">
+          <div id="sign-up-div" class="form-content" style="opacity: 0; visibility: hidden; position: absolute; top: 0;">
+            <form id="sign-up-form" onsubmit="return false">
               <div data-mdb-input-init class="form-outline mb-4">
-                <input type="text" id="register-name" class="form-control" required style="background-color: beige;">
-                <label class="form-label" for="register-name">Name</label>
+                <input type="text" id="sign-up-name" class="form-control" required style="background-color: beige;">
+                <label class="form-label" for="sign-up-name">Name</label>
               </div>
   
               <div data-mdb-input-init class="form-outline mb-4">
-                <input type="email" id="register-email" class="form-control" required style="background-color: beige;">
-                <label class="form-label" for="register-email">Email
+                <input type="email" id="sign-up-email" class="form-control" required style="background-color: beige;">
+                <label class="form-label" for="sign-up-email">Email
                   address</label>
               </div>
   
               <div data-mdb-input-init class="form-outline mb-4">
-                <input type="password" id="register-password" class="form-control" required
+                <input type="password" id="sign-up-password" class="form-control" required
                   style="background-color: beige;" minlength="8">
-                <label class="form-label" for="register-password">Password</label>
+                <label class="form-label" for="sign-up-password">Password</label>
               </div>
   
   
               <div class="d-flex justify-content-center">
-                <button type="submit" id="register-button" class="btn btn-light"
-                  data-mdb-ripple-color="black">Register</button>
+                <button type="submit" id="sign-up-button" class="btn btn-light"
+                  data-mdb-ripple-color="black">Sign Up</button>
               </div>
   
               <p class="text-center mt-4">Already a member? <a href="#" id="toggle-to-login">Login</a></p>
@@ -235,20 +234,20 @@
       document.getElementById('login-div').style.visibility = 'hidden';
       setTimeout(function () {
         document.getElementById('login-div').style.position = 'absolute';
-        document.getElementById('register-div').style.position = 'relative';
-        document.getElementById('register-div').style.opacity = '1';
-        document.getElementById('register-div').style.visibility = 'visible';
-        document.getElementById('form-title').textContent = 'Register';
+        document.getElementById('sign-up-div').style.position = 'relative';
+        document.getElementById('sign-up-div').style.opacity = '1';
+        document.getElementById('sign-up-div').style.visibility = 'visible';
+        document.getElementById('form-title').textContent = 'Sign Up';
       }, 500); // match the transition duration
     });
 
 
     document.getElementById('toggle-to-login').addEventListener('click', function (event) {
       event.preventDefault();
-      document.getElementById('register-div').style.opacity = '0';
-      document.getElementById('register-div').style.visibility = 'hidden';
+      document.getElementById('sign-up-div').style.opacity = '0';
+      document.getElementById('sign-up-div').style.visibility = 'hidden';
       setTimeout(function () {
-        document.getElementById('register-div').style.position = 'absolute';
+        document.getElementById('sign-up-div').style.position = 'absolute';
         document.getElementById('login-div').style.position = 'relative';
         document.getElementById('login-div').style.opacity = '1';
         document.getElementById('login-div').style.visibility = 'visible';
@@ -286,13 +285,13 @@
 
 
     // Registering a user
-    document.getElementById('register-button').addEventListener('click', function () {
-      if(!document.getElementById('registration-form').checkValidity())
+    document.getElementById('sign-up-button').addEventListener('click', function () {
+      if(!document.getElementById('sign-up-form').checkValidity())
         return
 
-      const name = document.getElementById('register-name').value;
-      const email = document.getElementById('register-email').value;
-      const password = document.getElementById('register-password').value;
+      const name = document.getElementById('sign-up-name').value;
+      const email = document.getElementById('sign-up-email').value;
+      const password = document.getElementById('sign-up-password').value;
 
       // Make the Axios POST request
       axios.post('{{ request.scheme }}://{{ request.get_host }}/api/v1/users/register/', {
