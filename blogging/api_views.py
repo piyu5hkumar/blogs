@@ -77,6 +77,14 @@ class UserViewSet(viewsets.GenericViewSet):
         return APIResponse(data={'refresh_token': str(refresh), 'access_token': str(refresh.access_token)}, status=status.HTTP_200_OK)
 
 
+    @action(detail=False, methods=['get'], authentication_classes=[TokenAuthenticationNo403], permission_classes=[])
+    def me(self, request):
+        data = self.request.user.__dict__ if self.request.user else {}
+        data.pop('_state', None)
+        data.pop('password', None)
+        return APIResponse(data=data, status=status.HTTP_200_OK)
+
+
 class BlogViewSet(viewsets.GenericViewSet):
 
     @action(detail=False, methods=['post'])
