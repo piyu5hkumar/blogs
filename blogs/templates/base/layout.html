@@ -186,6 +186,65 @@
     const loginSignUpModal = new bootstrap.Modal(document.getElementById('loginSignUpModal'));
     const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
 
+    window.addEventListener('load', () =>{
+      const accessToken = localStorage.getItem('access_token');
+      if (accessToken) {
+        axios.get('{{ request.scheme }}://{{ request.get_host }}/api/v1/users/me/')
+          .then(response => {
+            if (response.data.data.name) {
+              const navProfileInfo = document.getElementById('navProfileInfo');
+              const template = document.createElement('template');
+              template.innerHTML = `
+                <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" data-mdb-ripple-color="black" aria-expanded="false">
+                  ${response.data.data.name}
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              `
+              navProfileInfo.prepend(template.content.firstElementChild);
+            } else {
+              const navProfileInfo = document.getElementById('navProfileInfo');
+              const template = document.createElement('template');
+              template.innerHTML = `
+                <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" data-mdb-ripple-color="black" aria-expanded="false">
+                  Login/Sign Upx2
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              `
+              navProfileInfo.prepend(template.content.firstElementChild);
+            }
+          })
+          .catch(error => {
+            if (error.response) {
+                    appendAlert(`[${error.response.status}]: ${error.response.data.message}`, 'danger')
+            } else {
+                    showAlert('Registration failed: ' + error.message, 'danger');
+            }
+          });
+      } else {
+        const navProfileInfo = document.getElementById('navProfileInfo');
+        const template = document.createElement('template');
+        template.innerHTML = `
+          <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" data-mdb-ripple-color="black" aria-expanded="false">
+            Login/Sign Up
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        `
+        navProfileInfo.prepend(template.content.firstElementChild);
+      }
+    });
+
     axios.interceptors.request.use(
       (config) => {
         config.headers['Content-Type'] = 'application/json'

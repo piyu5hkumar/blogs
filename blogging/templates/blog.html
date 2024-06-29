@@ -29,6 +29,27 @@
 </div>
 
 <script>
+        window.addEventListener('load', () => {
+                axios.get('{{ request.scheme }}://{{ request.get_host }}/api/v1/blogs/like_check/', {
+                        params: {
+                                title_slug: `{{ title_slug }}`
+                        }
+                })
+                .then(response => {
+                        if (response.data.data.liked) {
+                                updateLikeToLiked(response.data.data.total_likes);
+                        }
+                })
+                .catch(error => {
+                        if (error.response) {
+                                appendAlert(`[${error.response.status}]: ${error.response.data.message}`, 'danger')
+                        } else {
+                                showAlert('Registration failed: ' + error.message, 'danger');
+                        }
+                });
+        });
+
+
         function updateLikeToLiked(likeCounter={{ total_likes }}) {
                 document.getElementById('like-counter').innerHTML = likeCounter;
                 
@@ -70,27 +91,6 @@
                         }
                 });
         }
-
-        window.onload = () => {
-                axios.get('{{ request.scheme }}://{{ request.get_host }}/api/v1/blogs/like_check/', {
-                        params: {
-                                title_slug: `{{ title_slug }}`
-                        }
-                })
-                .then(response => {
-                        if (response.data.data.liked) {
-                                updateLikeToLiked(response.data.data.total_likes);
-                        }
-                })
-                .catch(error => {
-                        if (error.response) {
-                                appendAlert(`[${error.response.status}]: ${error.response.data.message}`, 'danger')
-                        } else {
-                                showAlert('Registration failed: ' + error.message, 'danger');
-                        }
-                });
-        };
-
 
         document.getElementById('like-button').addEventListener('click', (event) => {
                 const likeButton = document.getElementById('like-button');
