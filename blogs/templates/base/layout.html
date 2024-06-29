@@ -161,6 +161,19 @@
             </li>
           </ul>
 
+
+          <div class="dropdown d-flex" id="navProfileInfo">
+            <!-- <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" data-mdb-ripple-color="black" aria-expanded="false">
+              Dropdown button
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul> -->
+          </div>
+
+
         </div>
       </div>
     </nav>
@@ -186,64 +199,51 @@
     const loginSignUpModal = new bootstrap.Modal(document.getElementById('loginSignUpModal'));
     const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
 
-    window.addEventListener('load', () =>{
+    function navBarLoginStatus(isLoggedIn=false, profile_info={}) {
+      const navProfileInfo = document.getElementById('navProfileInfo');
+      if(isLoggedIn) {
+        navProfileInfo.innerHTML = `
+          <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" data-mdb-ripple-color="black" aria-expanded="false">
+            ${profile_info.name}
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><a class="dropdown-item" href="#">Saved blogs</a></li>
+            <li><a class="dropdown-item" href="#">Logged Out</a></li>
+          </ul>
+        `;
+      } else {
+        navProfileInfo.innerHTML = `
+          <button type="button" class="btn btn-light" data-bs-toggle="modal" data-mdb-ripple-color="black" data-bs-target="#loginSignUpModal">
+            Login / Sign Up
+          </button>
+        `;
+      }
+    };
+
+    function getUser() {
       const accessToken = localStorage.getItem('access_token');
       if (accessToken) {
         axios.get('{{ request.scheme }}://{{ request.get_host }}/api/v1/users/me/')
           .then(response => {
             if (response.data.data.name) {
-              const navProfileInfo = document.getElementById('navProfileInfo');
-              const template = document.createElement('template');
-              template.innerHTML = `
-                <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" data-mdb-ripple-color="black" aria-expanded="false">
-                  ${response.data.data.name}
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-              `
-              navProfileInfo.prepend(template.content.firstElementChild);
-            } else {
-              const navProfileInfo = document.getElementById('navProfileInfo');
-              const template = document.createElement('template');
-              template.innerHTML = `
-                <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" data-mdb-ripple-color="black" aria-expanded="false">
-                  Login/Sign Upx2
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-              `
-              navProfileInfo.prepend(template.content.firstElementChild);
+              navBarLoginStatus(isLoggedIn=true, profile_info=response.data.data);
+              return
             }
           })
           .catch(error => {
             if (error.response) {
                     appendAlert(`[${error.response.status}]: ${error.response.data.message}`, 'danger')
             } else {
-                    showAlert('Registration failed: ' + error.message, 'danger');
+                showAlert('Registration failed: ' + error.message, 'danger');
             }
           });
-      } else {
-        const navProfileInfo = document.getElementById('navProfileInfo');
-        const template = document.createElement('template');
-        template.innerHTML = `
-          <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" data-mdb-ripple-color="black" aria-expanded="false">
-            Login/Sign Up
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        `
-        navProfileInfo.prepend(template.content.firstElementChild);
+          navBarLoginStatus(isLoggedIn=false);
       }
-    });
+    };
+
+
+    window.addEventListener('load', getUser);
 
     axios.interceptors.request.use(
       (config) => {
@@ -332,6 +332,7 @@
         localStorage.setItem('access_token', response.data.data.access_token);
         localStorage.setItem('refresh_token', response.data.data.refresh_token);
         loginSignUpModal.hide()
+        getUser();
       })
       .catch(error => {
         if (error.response) {
