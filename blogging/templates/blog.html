@@ -30,33 +30,18 @@
 
 <script>
         window.addEventListener('load', () => {
-                axios.get('{{ request.scheme }}://{{ request.get_host }}/api/v1/blogs/like_check/', {
-                        params: {
-                                title_slug: `{{ title_slug }}`
-                        }
-                })
-                .then(response => {
-                        if (response.data.data.liked) {
-                                updateLikeToLiked(response.data.data.total_likes);
-                        }
-                })
-                .catch(error => {
-                        if (error.response) {
-                                appendAlert(`[${error.response.status}]: ${error.response.data.message}`, 'danger')
-                        } else {
-                                showAlert('Registration failed: ' + error.message, 'danger');
-                        }
-                });
+                likeCheck();
+                loginCallBacks.add(likeCheck);
+                logoutCallBacks.add(likeCheck);
         });
 
-
-        function updateLikeToLiked(likeCounter={{ total_likes }}) {
+        function updateLikeToLiked(verifyLikeStatus=true, likeCounter={{ total_likes }}) {
                 document.getElementById('like-counter').innerHTML = likeCounter;
                 
                 const likeButton = document.getElementById('like-button');
                 
                 const template = document.createElement('template');
-                if (!parseInt(likeButton.dataset.isLiked)) {
+                if (verifyLikeStatus && !parseInt(likeButton.dataset.isLiked)) {
                         template.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#000000"><path d="M721-120H254v-512l278-288 33 26q11 8 14.5 18t3.5 23v10l-45 211h322q23 0 41.5 18.5T920-572v82q0 11-2.5 25.5T910-439L794-171q-9 21-29.5 36T721-120ZM194-632v512H80v-512h114Z"/></svg>`;
                         likeButton.dataset.isLiked = "1";
                         
@@ -72,16 +57,14 @@
                 likeButton.prepend(svgNode);
         }
 
-        function updateLikeStatus() {
+        function likeCheck() {
                 axios.get('{{ request.scheme }}://{{ request.get_host }}/api/v1/blogs/like_check/', {
                         params: {
                                 title_slug: `{{ title_slug }}`
                         }
                 })
                 .then(response => {
-                        if (response.data.data.liked) {
-                                updateLikeToLiked(response.data.data.total_likes);
-                        }
+                        updateLikeToLiked(response.data.data.liked, response.data.data.total_likes);
                 })
                 .catch(error => {
                         if (error.response) {
@@ -90,7 +73,8 @@
                                 showAlert('Registration failed: ' + error.message, 'danger');
                         }
                 });
-        }
+        };
+
 
         document.getElementById('like-button').addEventListener('click', (event) => {
                 const likeButton = document.getElementById('like-button');
@@ -99,7 +83,7 @@
                         title_slug: `{{ title_slug }}`
                 })
                 .then(response => {
-                        updateLikeToLiked(response.data.data.total_likes);
+                        updateLikeToLiked(true, response.data.data.total_likes);
                 })
                 .catch(error => {
                         if (error.response) {

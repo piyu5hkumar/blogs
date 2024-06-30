@@ -163,14 +163,6 @@
 
 
           <div class="dropdown d-flex" id="navProfileInfo">
-            <!-- <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" data-mdb-ripple-color="black" aria-expanded="false">
-              Dropdown button
-            </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul> -->
           </div>
 
 
@@ -196,8 +188,16 @@
 
   <script>
 
+    const loginCallBacks = new Set();
+    const logoutCallBacks = new Set();
     const loginSignUpModal = new bootstrap.Modal(document.getElementById('loginSignUpModal'));
-    const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+    const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+
+    window.addEventListener('load', () => {
+      getUser();
+      loginCallBacks.add(getUser);
+      logoutCallBacks.add(getUser);
+    });
 
     function navBarLoginStatus(isLoggedIn=false, profile_info={}) {
       const navProfileInfo = document.getElementById('navProfileInfo');
@@ -209,7 +209,7 @@
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="#">Profile</a></li>
             <li><a class="dropdown-item" href="#">Saved blogs</a></li>
-            <li><a class="dropdown-item" href="#">Logged Out</a></li>
+            <li><a class="dropdown-item" href="#" onclick="logOut()">Log Out</a></li>
           </ul>
         `;
       } else {
@@ -227,7 +227,7 @@
         axios.get('{{ request.scheme }}://{{ request.get_host }}/api/v1/users/me/')
           .then(response => {
             if (response.data.data.name) {
-              navBarLoginStatus(isLoggedIn=true, profile_info=response.data.data);
+              navBarLoginStatus(true, response.data.data);
               return
             }
           })
@@ -238,12 +238,19 @@
                 showAlert('Registration failed: ' + error.message, 'danger');
             }
           });
-          navBarLoginStatus(isLoggedIn=false);
       }
+      navBarLoginStatus(false);
     };
 
 
-    window.addEventListener('load', getUser);
+    function logOut() {
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
+      logoutCallBacks.forEach(func => {
+        func();
+      })
+    }
+
 
     axios.interceptors.request.use(
       (config) => {
@@ -332,7 +339,10 @@
         localStorage.setItem('access_token', response.data.data.access_token);
         localStorage.setItem('refresh_token', response.data.data.refresh_token);
         loginSignUpModal.hide()
-        getUser();
+        loginCallBacks.forEach(func => {
+          console.log('***', func)
+          func();
+        })
       })
       .catch(error => {
         if (error.response) {
@@ -360,8 +370,6 @@
         password: password
       })
       .then(response => {
-        // Handle the response data
-        console.log(response.data);
         alert('Registration successful!');
         loginSignUpModal.hide()
       })
