@@ -106,6 +106,45 @@
     </div>
   </div>
 
+  <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" style="display: block;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div id="login-or-registration" class="modal-body container mt-5"
+          style="margin-top: 50px; width: 50%; padding-bottom: 100px;">
+          <h1 id="form-title" class="text-center">Change Password</h1>
+  
+          <div id="change-password-div" class="form-content">
+            <form id="change-password-form" onsubmit="return false">
+  
+              <div data-mdb-input-init class="form-outline mb-4">
+                <input type="password" id="old-password" class="form-control" required style="background-color: beige;" minlength="8">
+                <label class="form-label" for="old-password">Old Password</label>
+              </div>
+  
+              <div data-mdb-input-init class="form-outline mb-4">
+                <input type="password" id="new-password" class="form-control" required style="background-color: beige;" minlength="8">
+                <label class="form-label" for="new-password">New Password</label>
+              </div>
+
+              <div data-mdb-input-init class="form-outline mb-4">
+                <input type="password" id="confirm-password" class="form-control" required style="background-color: beige;" minlength="8">
+                <label class="form-label" for="confirm-password">Confirm Password</label>
+              </div>
+  
+              <div class="d-flex justify-content-center">
+                <button type="submit" id="change-password-button" class="btn btn-light" data-mdb-ripple-color="black">Change Password</button>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
   <div class="d-flex flex-column vh-100">
 
@@ -207,7 +246,7 @@
             ${profile_info.name}
           </button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><a class="dropdown-item" href="#"  data-bs-toggle="modal" data-mdb-ripple-color="black" data-bs-target="#changePasswordModal">Change Password</a></li>
             <li><a class="dropdown-item" href="#">Saved blogs</a></li>
             <li><a class="dropdown-item" href="#" onclick="logOut()">Log Out</a></li>
           </ul>
@@ -371,6 +410,57 @@
       })
       .then(response => {
         alert('Registration successful!');
+        loginSignUpModal.hide()
+      })
+      .catch(error => {
+        if (error.response) {
+          appendAlert(`[${error.response.status}]: ${error.response.data.message}`, 'danger')
+        } else {
+          showAlert('Registration failed: ' + error.message, 'danger');
+        }
+
+      });
+    });
+
+
+    function updateChangePasswordFieldsColor(color='black') {
+      const oldPassword = document.getElementById('old-password');
+      const newPassword = document.getElementById('new-password');
+      const confirmPassword = document.getElementById('confirm-password');
+
+      document.querySelector("label[for=" + oldPassword.id  + "]").style.color = '#626258';
+      document.querySelector("label[for=" + confirmPassword.id  + "]").style.color = color;
+      document.querySelector("label[for=" + newPassword.id  + "]").style.color = color;
+    }
+
+    document.getElementById('old-password').addEventListener('focus', () => updateChangePasswordFieldsColor('#626258'));
+    document.getElementById('new-password').addEventListener('input', () => updateChangePasswordFieldsColor('#626258'));
+    document.getElementById('confirm-password').addEventListener('input', () => updateChangePasswordFieldsColor('#626258'));
+
+    
+    // Change Password
+    document.getElementById('change-password-button').addEventListener('click', function () {
+      if(!document.getElementById('change-password-form').checkValidity())
+        return;
+
+      const oldPassword = document.getElementById('old-password');
+      const newPassword = document.getElementById('new-password');
+      const confirmPassword = document.getElementById('confirm-password');
+
+      if(newPassword.value != confirmPassword.value) {
+        appendAlert('Passwords do not match', 'danger');
+        confirmPassword.focus();
+        updateChangePasswordFieldsColor('red')
+        return;
+      }
+
+      // Make the Axios POST request
+      axios.post('{{ request.scheme }}://{{ request.get_host }}/api/v1/users/change_password/', {
+        name: name,
+        newPassword: newPassword,
+        confirmPassword: confirmPassword
+      })
+      .then(response => {
         loginSignUpModal.hide()
       })
       .catch(error => {
