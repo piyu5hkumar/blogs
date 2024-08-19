@@ -194,24 +194,32 @@
               </ul>
             </li>
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="false">
                   <span data-hover="Disabled">Disabled</span>
               </a>
-            </li>
+            </li> -->
 
             <li class="nav-item">
               <a class="nav-link" href="/sponsor">
                   <span data-hover="Sponsor">Sponsor</span>
               </a>
             </li>
-            <li class="nav-item">
+
+            <!-- <li class="nav-item">
               <a class="nav-link" href="/rss">
                 <span data-hover="RSS">RSS</span>
               </a>
-            </li>
+            </li> -->
+            
+            
           </ul>
-
+          
+          <!-- <form class="d-flex">
+            <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+            <span class="input-group-text border-0" id="search-addon">
+            </span>
+          </form> -->
 
           <div class="dropdown d-flex" id="navProfileInfo">
           </div>
@@ -253,9 +261,23 @@
     function navBarLoginStatus(isLoggedIn=false, profile_info={}) {
       const navProfileInfo = document.getElementById('navProfileInfo');
       if(isLoggedIn) {
+        let userName = profile_info.name;
+        let firstSpaceIndex = userName.indexOf(' ');
+
+        let firstName;
+        if (firstSpaceIndex === -1) {
+            firstName = userName;
+        } else {
+            firstName = userName.substring(0, firstSpaceIndex);
+        }
+
+        const maxLength = 10;
+
+        let navBarUserName = firstName.length <= maxLength ? firstName : firstName.substring(0, maxLength - 3) + '...';
+
         navProfileInfo.innerHTML = `
           <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" data-mdb-ripple-color="black" aria-expanded="false">
-            ${profile_info.name}
+            ${navBarUserName}
           </button>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="#"  data-bs-toggle="modal" data-mdb-ripple-color="black" data-bs-target="#changePasswordModal">Change Password</a></li>
@@ -284,9 +306,9 @@
           })
           .catch(error => {
             if (error.response) {
-                    appendAlert(`[${error.response.status}]: ${error.response.data.message}`, 'danger')
+              appendAlert(`[${error.response.status}]: ${error.response.data.message}`, 'danger')
             } else {
-                showAlert('Registration failed: ' + error.message, 'danger');
+              appendAlert('Registration failed: ' + error.message, 'danger');
             }
           });
       }
