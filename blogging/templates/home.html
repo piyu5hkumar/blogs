@@ -1,5 +1,147 @@
 {% extends 'base/layout.html' %}
 
 {% block content %}
-yolo
+
+<style>
+    .svg-container {
+        position: relative;
+        display: inline-block;
+    }
+
+
+    li:hover {
+        color: red;
+    }
+
+    a {
+        color: black;
+    }
+
+    a:link {
+        text-decoration: none;
+    }
+
+    .blog-creation-date {
+        font-size: 70%;
+        font-style: italic;
+    }
+
+    .blog-list > li:hover {
+        color: black;
+        box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.2s;
+    }
+    
+    
+
+</style>
+
+
+<div class="container mt-4">
+    <div class="row">
+        <!-- Left Side (Blogs) -->
+        <div class="col-md-8" style="padding-right: 50px;">
+            <div class="row mb-4" style="padding-bottom: 100px;">
+                <div class="col-12">
+                    <h5>New Blogs ✨</h5>
+                    
+                    <ol class="list-group list-group-flush blog-list">
+                        {% for blog in new_blogs%}
+                            <li class="list-group-item d-flex justify-content-between align-items-center pt-3 mt-2">
+                                <div class="item-title"> 
+                                    <a href="/{{ blog.topic_name }}/{{ blog.title_slug }}" class="stretched-link">{{ blog.title }} </a>
+                                    <div class="blog-creation-date">{{blog.created_at|date:"F d, Y"}}</div>
+                                </div>
+                                
+                                <div class="gap-3 d-md-flex justify-content-md-end">
+                                    <div class="svg-container justify-content-md-end">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M720-120H320v-520l280-280 50 50q7 7 11.5 19t4.5 23v14l-44 174h218q32 0 56 24t24 56v80q0 7-1.5 15t-4.5 15L794-168q-9 20-30 34t-44 14ZM240-640v520H80v-520h160Z"/></svg>
+                                        <span class="shadow position-absolute top-0 start-100 translate-middle badge rounded-pill text-dark">
+                                            {{ blog.total_likes }}
+                                        </span>
+                                    </div>
+            
+                                    <div class="svg-container">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M240-400h480v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80Zm-80 400q-33 0-56.5-23.5T80-320v-480q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v720L720-240H160Z"/></svg>
+                                        <span class="shadow position-absolute top-0 start-100 translate-middle badge rounded-pill text-dark">
+                                            {{ blog.total_comments }}
+                                        </span>
+                                    </div>
+            
+                                    <div class="svg-container">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M720-80q-50 0-85-35t-35-85q0-7 1-14.5t3-13.5L322-392q-17 15-38 23.5t-44 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q23 0 44 8.5t38 23.5l282-164q-2-6-3-13.5t-1-14.5q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-23 0-44-8.5T638-672L356-508q2 6 3 13.5t1 14.5q0 7-1 14.5t-3 13.5l282 164q17-15 38-23.5t44-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Z"/></svg>
+                                        <span class="shadow position-absolute top-0 start-100 translate-middle badge rounded-pill text-dark">
+                                            {{ blog.total_likes }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ol>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+
+                    <h5>Hot Blogs 🔥</h5>
+                    <ol class="list-group list-group-flush blog-list">
+                        {% for blog in hot_blogs%}
+                            <li class="list-group-item d-flex justify-content-between align-items-center pt-3 mt-2">
+                                <div class="item-title"> 
+                                    <a href="/{{ blog.topic_name }}/{{ blog.title_slug }}" class="stretched-link">{{ blog.title }} </a>
+                                    <div class="blog-creation-date">{{blog.created_at|date:"F d, Y"}}</div>
+                                </div>
+                                
+                                <div class="gap-3 d-md-flex justify-content-md-end">
+                                    <div class="svg-container justify-content-md-end">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M720-120H320v-520l280-280 50 50q7 7 11.5 19t4.5 23v14l-44 174h218q32 0 56 24t24 56v80q0 7-1.5 15t-4.5 15L794-168q-9 20-30 34t-44 14ZM240-640v520H80v-520h160Z"/></svg>
+                                        <span class="shadow position-absolute top-0 start-100 translate-middle badge rounded-pill text-dark">
+                                            {{ blog.total_likes }}
+                                        </span>
+                                    </div>
+            
+                                    <div class="svg-container">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M240-400h480v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80Zm-80 400q-33 0-56.5-23.5T80-320v-480q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v720L720-240H160Z"/></svg>
+                                        <span class="shadow position-absolute top-0 start-100 translate-middle badge rounded-pill text-dark">
+                                            {{ blog.total_comments }}
+                                        </span>
+                                    </div>
+            
+                                    <div class="svg-container">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M720-80q-50 0-85-35t-35-85q0-7 1-14.5t3-13.5L322-392q-17 15-38 23.5t-44 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q23 0 44 8.5t38 23.5l282-164q-2-6-3-13.5t-1-14.5q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-23 0-44-8.5T638-672L356-508q2 6 3 13.5t1 14.5q0 7-1 14.5t-3 13.5l282 164q17-15 38-23.5t44-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Z"/></svg>
+                                        <span class="shadow position-absolute top-0 start-100 translate-middle badge rounded-pill text-dark">
+                                            {{ blog.total_likes }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ol>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side (About Me) -->
+        <div class="col-md-4" style="padding-left: 50px;">
+            <div class="card">
+                <img src="" class="card-img-top" alt="Your Image">
+                <div class="card-body">
+                    <h5 class="card-title">About Me</h5>
+                    <p class="card-text">A little information about yourself goes here. You can add more details as needed.</p>
+                    <div class="mt-3">
+                        <h6>Follow Me</h6>
+                        <a href="https://www.facebook.com/yourprofile" class="btn btn-outline-primary btn-sm">Facebook</a>
+                        <a href="https://www.twitter.com/yourprofile" class="btn btn-outline-info btn-sm">Twitter</a>
+                        <a href="https://www.linkedin.com/in/yourprofile" class="btn btn-outline-secondary btn-sm">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 {% endblock %}

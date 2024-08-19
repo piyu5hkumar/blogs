@@ -17,7 +17,11 @@ def nav_bar_data(request):
 
 
 def home(request):
+    hot_blogs = blogging_dal.get_active_blogs_wrt_topic(topic_name='python')
+    new_blogs = blogging_dal.get_active_blogs_wrt_topic(topic_name='django')
     context = {
+        'hot_blogs': hot_blogs,
+        'new_blogs': new_blogs,
         **nav_bar_data(request=request)
     }
     return render(request, "home.html", context=context)
