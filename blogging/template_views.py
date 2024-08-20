@@ -17,8 +17,8 @@ def nav_bar_data(request):
 
 
 def home(request):
-    hot_blogs = blogging_dal.get_active_blogs_wrt_topic(topic_name='python')
-    new_blogs = blogging_dal.get_active_blogs_wrt_topic(topic_name='django')
+    hot_blogs = blogging_dal.get_hot_blogs(total=3)
+    new_blogs = blogging_dal.get_new_blogs(total=3)
     context = {
         'hot_blogs': hot_blogs,
         'new_blogs': new_blogs,
