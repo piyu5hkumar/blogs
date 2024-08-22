@@ -1,0 +1,26 @@
+{% extends 'base/layout.html' %}
+
+{% block content %}
+<style>
+    body, html {
+        height: 100%;
+    }
+    .centered-404 {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 10vw;
+        font-weight: bold;
+    }
+</style>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 centered-404">
+            404
+        </div>
+    </div>
+</div>
+{% endblock %}

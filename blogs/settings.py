@@ -18,7 +18,7 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 FERNET_KEY = os.environ["FERNET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('ENV') != 'PROD'
 
 ALLOWED_HOSTS = ['*'] #TODO: NEED TO FIX THIS
 CORS_ORIGIN_ALLOW_ALL = True #TODO: NEED TO FIX THIS

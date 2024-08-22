@@ -6,6 +6,11 @@ from blogging.urls import (
     blog_router
 ) 
 from rest_framework.routers import DefaultRouter
+from django.conf.urls import (handler400, handler403, handler404, handler500)
+
+
+handler404 = 'blogs.views.page_not_found'
+
 
 router = DefaultRouter()
 router.registry.extend(user_router.registry)

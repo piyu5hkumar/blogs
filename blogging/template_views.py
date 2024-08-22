@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponseNotFound
 from beaker.cache import cache_region
 import blogging.dal as blogging_dal
 import blogging.models as blogging_models
@@ -16,6 +17,15 @@ def nav_bar_data(request):
     }
 
 
+
+def page_404(request):
+    context = {
+        **nav_bar_data(request=request)
+    }
+    return render(request, "404.html", context=context)
+
+
+
 def home(request):
     hot_blogs = blogging_dal.get_hot_blogs(total=3)
     new_blogs = blogging_dal.get_new_blogs(total=3)
@@ -29,6 +39,11 @@ def home(request):
 
 def list_all_blogs_wrt_topic(request, topic_name):
     all_blogs = blogging_dal.get_active_blogs_wrt_topic(topic_name)
+    
+    if not all_blogs:
+        return page_404(request)
+
+
     context = {
         'all_blogs': all_blogs,
         **nav_bar_data(request=request)
