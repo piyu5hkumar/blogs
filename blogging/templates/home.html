@@ -130,7 +130,7 @@
                 <img src="https://piyushkumar.dev/images/undraw/its_me3.png" class="card-img-top" alt="Your Image">
                 <div class="card-body">
                     <h5 class="card-title">About Me</h5>
-                    <p class="card-text">3.6 years experienced Backend Developer with Python specialization (Django, Flask, RESTful APIs, GraphQL). Proven in e-commerce, mobile apps, and process automation. Actively pursuing impactful roles.</p>
+                    <p class="card-text"><b id="my-experience">aaa</b> years experienced Backend Developer with Python specialization (Django, Flask, RESTful APIs, GraphQL). Proven in e-commerce, mobile apps, and process automation. Actively pursuing impactful roles.</p>
                     <div class="justify-content-center mb-2">
                         <h6>Follow Me</h6>
 
@@ -145,6 +145,31 @@
         </div>
     </div>
 </div>
+
+<script>
+    function calculateTotalYears(startDate, endDate) {
+        const startYear = startDate.getFullYear();
+        const endYear = endDate.getFullYear();
+        const startMonth = startDate.getMonth();
+        const endMonth = endDate.getMonth();
+
+        const years = endYear - startYear;
+        const months = endMonth - startMonth;
+
+        const totalYears = years + months / 12;
+
+        return totalYears.toFixed(1); // Format to one decimal place
+    }
+
+    const startDate = new Date("2021-01-14");
+    const endDate = new Date();
+
+    const totalYears = calculateTotalYears(startDate, endDate);
+    const counterElement = document.getElementById("my-experience");
+    console.log('hello world', counterElement.innerHTML, totalYears)
+    counterElement.innerHTML = totalYears;
+    
+</script>
 
 
 {% endblock %}
