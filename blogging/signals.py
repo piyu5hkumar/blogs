@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup
 
 @receiver(pre_save, sender=Blog)
 def before_blog_saved(sender, instance: Blog, **kwargs):
+    instance.title = instance.title.title()
     instance.title_slug = slugify(instance.title)
     soup = BeautifulSoup(instance.content, 'html.parser')
     
