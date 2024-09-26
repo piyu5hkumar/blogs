@@ -3,6 +3,7 @@ from django.http import HttpResponseNotFound
 from beaker.cache import cache_region
 import blogging.dal as blogging_dal
 import blogging.models as blogging_models
+import cms.models as cms_models
 
 
 @cache_region('5_min', 'get_topics')
@@ -17,10 +18,19 @@ def nav_bar_data(request):
     }
 
 
+def cms_data(request):
+    active_toggles = cms_models.Toggle.objects.filter(active=True, status=True).values('name', 'status')
+
+    return {toggle['name']: toggle['status'] for toggle in active_toggles}
+
+
+def nav_bar_and_cms_data(request):
+    return {**nav_bar_data(request=request), **cms_data(request=request)}
+
 
 def page_404(request):
     context = {
-        **nav_bar_data(request=request)
+        **nav_bar_data(request=request),
     }
     return render(request, "404.html", context=context)
 
@@ -32,7 +42,7 @@ def home(request):
     context = {
         'hot_blogs': hot_blogs,
         'new_blogs': new_blogs,
-        **nav_bar_data(request=request)
+        **nav_bar_and_cms_data(request)
     }
     return render(request, "home.html", context=context)
 
@@ -46,7 +56,7 @@ def list_all_blogs_wrt_topic(request, topic_name):
 
     context = {
         'all_blogs': all_blogs,
-        **nav_bar_data(request=request)
+        **nav_bar_and_cms_data(request)
     }
     return render(request, "blog_list.html", context=context)
 
@@ -60,13 +70,13 @@ def show_blog(request, topic_name, blog_title_slug):
         'total_comments': blog.total_comments,
         'total_shares': 3,
         'content': blog.content,
-        **nav_bar_data(request=request)
+        **nav_bar_and_cms_data(request)
     }
     return render(request, "blog.html", context=context)
 
 
 def login(request):
     context = {
-        **nav_bar_data(request=request)
+        **nav_bar_and_cms_data(request)
     }
     return render(request, "login.html", context=context)
