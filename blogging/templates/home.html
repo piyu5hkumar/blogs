@@ -54,19 +54,25 @@
                                 </div>
                                 
                                 <div class="gap-3 d-md-flex justify-content-md-end">
-                                    <div class="svg-container justify-content-md-end">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M720-120H320v-520l280-280 50 50q7 7 11.5 19t4.5 23v14l-44 174h218q32 0 56 24t24 56v80q0 7-1.5 15t-4.5 15L794-168q-9 20-30 34t-44 14ZM240-640v520H80v-520h160Z"/></svg>
-                                        <span class="shadow position-absolute top-0 start-100 translate-middle badge rounded-pill text-dark">
-                                            {{ blog.total_likes }}
-                                        </span>
-                                    </div>
-            
-                                    <div class="svg-container">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M240-400h480v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80Zm-80 400q-33 0-56.5-23.5T80-320v-480q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v720L720-240H160Z"/></svg>
-                                        <span class="shadow position-absolute top-0 start-100 translate-middle badge rounded-pill text-dark">
-                                            {{ blog.total_comments }}
-                                        </span>
-                                    </div>
+
+                                    {% if login_signup %}
+                                        <div class="svg-container justify-content-md-end">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M720-120H320v-520l280-280 50 50q7 7 11.5 19t4.5 23v14l-44 174h218q32 0 56 24t24 56v80q0 7-1.5 15t-4.5 15L794-168q-9 20-30 34t-44 14ZM240-640v520H80v-520h160Z"/></svg>
+                                            <span class="shadow position-absolute top-0 start-100 translate-middle badge rounded-pill text-dark">
+                                                {{ blog.total_likes }}
+                                            </span>
+                                        </div>
+                                    {% endif %}
+                                    
+
+                                    {% if comments %}
+                                        <div class="svg-container">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M240-400h480v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80Zm-80 400q-33 0-56.5-23.5T80-320v-480q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v720L720-240H160Z"/></svg>
+                                            <span class="shadow position-absolute top-0 start-100 translate-middle badge rounded-pill text-dark">
+                                                {{ blog.total_comments }}
+                                            </span>
+                                        </div>
+                                    {% endif %}
             
                                     <div class="svg-container">
                                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M720-80q-50 0-85-35t-35-85q0-7 1-14.5t3-13.5L322-392q-17 15-38 23.5t-44 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q23 0 44 8.5t38 23.5l282-164q-2-6-3-13.5t-1-14.5q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-23 0-44-8.5T638-672L356-508q2 6 3 13.5t1 14.5q0 7-1 14.5t-3 13.5l282 164q17-15 38-23.5t44-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Z"/></svg>
@@ -95,19 +101,24 @@
                                 </div>
                                 
                                 <div class="gap-3 d-md-flex justify-content-md-end">
-                                    <div class="svg-container justify-content-md-end">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M720-120H320v-520l280-280 50 50q7 7 11.5 19t4.5 23v14l-44 174h218q32 0 56 24t24 56v80q0 7-1.5 15t-4.5 15L794-168q-9 20-30 34t-44 14ZM240-640v520H80v-520h160Z"/></svg>
-                                        <span class="shadow position-absolute top-0 start-100 translate-middle badge rounded-pill text-dark">
-                                            {{ blog.total_likes }}
-                                        </span>
-                                    </div>
-            
-                                    <div class="svg-container">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M240-400h480v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80Zm-80 400q-33 0-56.5-23.5T80-320v-480q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v720L720-240H160Z"/></svg>
-                                        <span class="shadow position-absolute top-0 start-100 translate-middle badge rounded-pill text-dark">
-                                            {{ blog.total_comments }}
-                                        </span>
-                                    </div>
+
+                                    {% if login_signup %}
+                                        <div class="svg-container justify-content-md-end">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M720-120H320v-520l280-280 50 50q7 7 11.5 19t4.5 23v14l-44 174h218q32 0 56 24t24 56v80q0 7-1.5 15t-4.5 15L794-168q-9 20-30 34t-44 14ZM240-640v520H80v-520h160Z"/></svg>
+                                            <span class="shadow position-absolute top-0 start-100 translate-middle badge rounded-pill text-dark">
+                                                {{ blog.total_likes }}
+                                            </span>
+                                        </div>
+                                    {% endif %}
+                                    
+                                    {% if comments %}
+                                        <div class="svg-container">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M240-400h480v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80Zm-80 400q-33 0-56.5-23.5T80-320v-480q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v720L720-240H160Z"/></svg>
+                                            <span class="shadow position-absolute top-0 start-100 translate-middle badge rounded-pill text-dark">
+                                                {{ blog.total_comments }}
+                                            </span>
+                                        </div>
+                                    {% endif %}
             
                                     <div class="svg-container">
                                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M720-80q-50 0-85-35t-35-85q0-7 1-14.5t3-13.5L322-392q-17 15-38 23.5t-44 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q23 0 44 8.5t38 23.5l282-164q-2-6-3-13.5t-1-14.5q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-23 0-44-8.5T638-672L356-508q2 6 3 13.5t1 14.5q0 7-1 14.5t-3 13.5l282 164q17-15 38-23.5t44-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Z"/></svg>
